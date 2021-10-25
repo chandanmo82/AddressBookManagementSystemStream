@@ -49,6 +49,6 @@ public class ContactPerson {
     @Override
     public String toString() {
 
-        return "Person Details:\nFirst Name - "+firstName+"\nLast Name - "+lastName+"\nPhone Number - "+phoneNumber+"\nEmail - "+email+"\nAddress - "+address;
+        return "\nPerson Details:\nFirst Name - " + firstName + "\nLast Name - " + lastName + "\nPhone Number - " + phoneNumber + "\nEmail - " + email + "\nAddress - " + address;
     }
 }
