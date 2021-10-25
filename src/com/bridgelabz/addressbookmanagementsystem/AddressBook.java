@@ -2,6 +2,7 @@ package com.bridgelabz.addressbookmanagementsystem;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class AddressBook implements AddressBookIF {
 
@@ -16,6 +17,10 @@ public class AddressBook implements AddressBookIF {
 
     public static void setAddressBookName(String addressBookName) {
         AddressBook.addressBookName = addressBookName;
+    }
+
+    public ArrayList<ContactPerson> getContact() {
+        return new ArrayList<ContactPerson>(contactList.values());
     }
 
     @Override
