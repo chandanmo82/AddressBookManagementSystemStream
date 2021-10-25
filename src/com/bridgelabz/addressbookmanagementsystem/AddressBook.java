@@ -1,24 +1,24 @@
 package com.bridgelabz.addressbookmanagementsystem;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 
-public class AddressBook implements AddressBookIF {
+public class AddressBook implements AddressBookIF{
 
     Scanner scannerObject = new Scanner(System.in);
-    ArrayList<ContactPerson> contactList = new ArrayList<ContactPerson>();
+    ArrayList <ContactPerson> contactList = new ArrayList<ContactPerson>();
 
     @Override
     public void operation() {
 
 
+
         boolean moreChanges = true;
-        do {
+        do{
 
             System.out.println("\nChoose the operation you want to perform");
-            System.out.println("1.Add To Address Book\n2.Edit Existing Entry\n3.Display Address book\n4.Exit Address book System");
+            System.out.println("1.Add To Address Book\n2.Edit Existing Entry\n3.Display Address book\n4.Delete Contact\n5.Exit Address book System");
 
             switch (scannerObject.nextInt()) {
                 case 1:
@@ -31,13 +31,16 @@ public class AddressBook implements AddressBookIF {
                     displayContents();
                     break;
                 case 4:
+                    deletePerson();
+                    break;
+                case 5:
                     moreChanges = false;
                     System.out.println("BYE !");
 
 
             }
 
-        } while (moreChanges);
+        }while(moreChanges);
     }
 
     @Override
@@ -69,6 +72,7 @@ public class AddressBook implements AddressBookIF {
         long zipCode = scannerObject.nextLong();
 
 
+
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setPhoneNumber(phoneNumber);
@@ -87,18 +91,18 @@ public class AddressBook implements AddressBookIF {
         String firstName = scannerObject.next();
         Iterator<ContactPerson> iterator = contactList.listIterator();
 
-        while (iterator.hasNext()) {
+        while(iterator.hasNext()) {
 
             ContactPerson person = iterator.next();
 
-            if (firstName.equals(person.getFirstName())) {
+            if(firstName.equals(person.getFirstName()) ) {
 
                 Address address = person.getAddress();
                 System.out.println("\nChoose the attribute you want to change:");
                 System.out.println("1.Last Name\n2.Phone Number\n3.Email\n4.City\n5.State\n6.ZipCode");
                 int choice = scannerObject.nextInt();
 
-                switch (choice) {
+                switch(choice) {
                     case 1:
                         System.out.println("Enter the correct Last Name :");
                         String lastName = scannerObject.next();
@@ -137,14 +141,30 @@ public class AddressBook implements AddressBookIF {
     }
 
     @Override
+    public void deletePerson() {
+
+        System.out.println("Enter the first name of the person to be deleted");
+        String firstName = scannerObject.next();
+        Iterator<ContactPerson> iterator = contactList.listIterator();
+
+        while(iterator.hasNext()) {
+
+            ContactPerson person = iterator.next();
+
+            if(firstName.equals(person.getFirstName())) {
+                contactList.remove(person);
+                return;
+            }
+        }
+    }
+
+    @Override
     public void displayContents() {
 
         Iterator<ContactPerson> iterator = contactList.iterator();
-        while (iterator.hasNext()) {
+        while(iterator.hasNext()) {
             System.out.println(iterator.next());
         }
 
     }
-
-
 }
