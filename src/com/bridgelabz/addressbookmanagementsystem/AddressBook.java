@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+
 public class AddressBook implements AddressBookIF {
 
     Scanner scannerObject = new Scanner(System.in);
@@ -39,7 +40,7 @@ public class AddressBook implements AddressBookIF {
 
             System.out.println("\nChoose the operation you want to perform");
             System.out.println(
-                    "1.Add To Address Book\n2.Edit Existing Entry\n3.Delete Contact\n4.Display Address book\n5.Display Sorted Address Book\n6.Exit Address book System");
+                    "1.Add To Address Book\n2.Edit Existing Entry\n3.Delete Contact\n4.Display Address book\n5.Display Sorted Address Book By Custom Criteria\n6.Exit Address book System");
 
             switch (scannerObject.nextInt()) {
                 case 1:
@@ -54,15 +55,17 @@ public class AddressBook implements AddressBookIF {
                 case 4:
                     displayContents();
                     break;
-                case 5 :
-                    sortAddressBook();
+                case 5:
+                    System.out.println("What Criteria Do You Want Address Book To Be Sorted In ?");
+                    System.out.println("1.FirstName\n2.City\n3.State\n4.Zip Code");
+                    int sortingChoice = scannerObject.nextInt();
+                    sortAddressBook(sortingChoice);
                     break;
-                case 6:
+                case 7:
                     moreChanges = false;
                     System.out.println("Exiting Address Book: "+this.getAddressBookName()+" !");
 
             }
-
 
         } while (moreChanges);
     }
@@ -222,13 +225,7 @@ public class AddressBook implements AddressBookIF {
         System.out.println("-----------------------------------------");
 
     }
-
-    public void sortAddressBook() {
-
-        List<ContactPerson> sortedContactList = contactList.values().stream()
-                .sorted((firstperson, secondperson) -> firstperson.getFirstName().compareTo(secondperson.getFirstName()))
-                .collect(Collectors.toList());
-
+    public void printSortedList(List<ContactPerson> sortedContactList) {
         System.out.println("------ Sorted Address Book "+this.getAddressBookName()+" ------");
         Iterator iterator = sortedContactList.iterator();
         while (iterator.hasNext()) {
@@ -236,6 +233,38 @@ public class AddressBook implements AddressBookIF {
             System.out.println();
         }
         System.out.println("-----------------------------------------");
+    }
+
+    public void sortAddressBook(int sortingChoice) {
+        List<ContactPerson> sortedContactList;
+
+        switch(sortingChoice) {
+
+            case 1: sortedContactList = contactList.values().stream()
+                    .sorted((firstperson, secondperson) -> firstperson.getFirstName().compareTo(secondperson.getFirstName()))
+                    .collect(Collectors.toList());
+                printSortedList(sortedContactList);
+                break;
+
+            case 2: sortedContactList = contactList.values().stream()
+                    .sorted((firstperson, secondperson) -> firstperson.getAddress().getCity().compareTo(secondperson.getAddress().getCity()))
+                    .collect(Collectors.toList());
+                printSortedList(sortedContactList);
+                break;
+
+            case 3: sortedContactList = contactList.values().stream()
+                    .sorted((firstperson, secondperson) -> firstperson.getAddress().getState().compareTo(secondperson.getAddress().getState()))
+                    .collect(Collectors.toList());
+                printSortedList(sortedContactList);
+                break;
+
+            case 4: sortedContactList = contactList.values().stream()
+                    .sorted((firstperson, secondperson) -> Long.valueOf(firstperson.getAddress().getZip()).compareTo(Long.valueOf(secondperson.getAddress().getZip())))
+                    .collect(Collectors.toList());
+                printSortedList(sortedContactList);
+                break;
+        }
+
     }
 
 }
